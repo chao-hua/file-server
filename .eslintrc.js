@@ -14,7 +14,7 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    "no-console": "info",
-    "no-mixed-spaces-and-tabs": "info"
+    "no-console": 1
+    // "no-mixed-spaces-and-tabs": "info"
   }
 };
