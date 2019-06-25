@@ -17,24 +17,26 @@ module.exports = async function(req, res, filePath) {
     if (stats.isFile()) {
       const contentType = typeTransfer(filePath);
       res.statusCode = 200;
-      res.setHeader("Content-type", contentType);
+      res.setHeader("Content-type", contentType.type);
       fs.createReadStream(filePath).pipe(res);
     } else if (stats.isDirectory()) {
       const files = await readdir(filePath);
       const dir = path.relative(conf.root, filePath);
-      res.statusCode = 200;
-      res.setHeader("Content-type", "text/html");
       const data = {
         title: path.basename(filePath),
         dir: dir ? `${dir}` : "",
         files: files.map(file => {
+          const fullPath = path.normalize(filePath + "/\\" + file);
+          const typeInfo = typeTransfer(fullPath);
           return {
             file,
-            type: typeTransfer(file),
-            icon: typeTransfer(file)
+            type: typeInfo.type,
+            icon: typeInfo.icon
           };
         })
       };
+      res.statusCode = 200;
+      res.setHeader("Content-type", "text/html");
       res.end(template(data));
     }
   } catch (err) {
