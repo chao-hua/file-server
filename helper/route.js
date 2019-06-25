@@ -26,7 +26,7 @@ module.exports = async function(req, res, filePath) {
         title: path.basename(filePath),
         dir: dir ? `${dir}` : "",
         files: files.map(file => {
-          const fullPath = path.normalize(filePath + "/\\" + file);
+          const fullPath = path.join(filePath, file);
           const typeInfo = typeTransfer(fullPath);
           return {
             file,
