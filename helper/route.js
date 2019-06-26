@@ -4,6 +4,8 @@ const promisify = require("util").promisify;
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 const conf = require("../config/defaultConfig.js");
+const compress = require("./compress");
+const range = require("./range");
 // handlebars template
 const handlebars = require("handlebars");
 const tplPath = path.join(__dirname, "../template/dir.tpl");
@@ -16,12 +18,26 @@ module.exports = async function(req, res, filePath) {
     const stats = await stat(filePath);
     if (stats.isFile()) {
       const contentType = typeTransfer(filePath);
-      res.statusCode = 200;
       res.setHeader("Content-type", contentType.type);
-      fs.createReadStream(filePath).pipe(res);
+      // range
+      let rs;
+      const { start, end, code } = range(stats.size, req, res);
+      if (code === 200) {
+        res.statusCode = 200;
+        rs = fs.createReadStream(filePath);
+      } else {
+        res.statusCode = 206;
+        rs = fs.createReadStream(filePath, { start, end });
+      }
+      // compress
+      if (filePath.match(conf.compress)) {
+        rs = compress(rs, req, res);
+      }
+      rs.pipe(res);
     } else if (stats.isDirectory()) {
       const files = await readdir(filePath);
       const dir = path.relative(conf.root, filePath);
+      // template data
       const data = {
         title: path.basename(filePath),
         dir: dir ? `${dir}` : "",
