@@ -29,9 +29,13 @@ module.exports = filePath => {
     ext = filePath;
   }
 
-  const stats = fs.statSync(filePath);
-  if (stats.isDirectory()) {
-    ext = "folder";
+  try {
+    const stats = fs.statSync(filePath);
+    if (stats.isDirectory()) {
+      ext = "folder";
+    }
+  } catch (err) {
+    ext = "";
   }
 
   return types[ext] ? types[ext] : types["text"];
