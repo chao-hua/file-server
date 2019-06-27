@@ -6,8 +6,8 @@
 </head>
 <body>
 	{{#each files}}
-        <img src="src/img/{{icon}}" style="width:20px;vertical-align: middle;">
-        <a href="{{../dir}}/{{file}}">{{file}}</a>
+        <img src="{{icon}}" style="width:20px;vertical-align: middle;">
+        <a href="{{../dir}}/{{file}}">{{file}}[{{icon}}]{{../dir}}</a>
         <br>
     {{/each}}
 </body>

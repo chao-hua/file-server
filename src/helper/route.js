@@ -42,6 +42,8 @@ module.exports = async function(req, res, filePath, conf) {
     } else if (stats.isDirectory()) {
       const files = await readdir(filePath);
       const dir = path.relative(conf.root, filePath);
+      // TODO
+      const imgDir = path.join(process.cwd(), "src/img");
       // template data
       const data = {
         title: path.basename(filePath),
@@ -52,7 +54,7 @@ module.exports = async function(req, res, filePath, conf) {
           return {
             file,
             type: typeInfo.type,
-            icon: typeInfo.icon
+            icon: path.join(imgDir, typeInfo.icon)
           };
         })
       };
