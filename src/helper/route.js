@@ -3,9 +3,9 @@ const path = require("path");
 const promisify = require("util").promisify;
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
-const conf = require("../config/defaultConfig.js");
 const compress = require("./compress");
 const range = require("./range");
+const cache = require("./cache");
 // handlebars template
 const handlebars = require("handlebars");
 const tplPath = path.join(__dirname, "../template/dir.tpl");
@@ -13,12 +13,17 @@ const source = fs.readFileSync(tplPath);
 const template = handlebars.compile(source.toString());
 const typeTransfer = require("./typeTransfer.js");
 
-module.exports = async function(req, res, filePath) {
+module.exports = async function(req, res, filePath, conf) {
   try {
     const stats = await stat(filePath);
     if (stats.isFile()) {
       const contentType = typeTransfer(filePath);
       res.setHeader("Content-type", contentType.type);
+      // cache
+      if (cache(stats, req, res)) {
+        res.statusCode = 304;
+        res.end();
+      }
       // range
       let rs;
       const { start, end, code } = range(stats.size, req, res);
