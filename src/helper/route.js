@@ -54,7 +54,8 @@ module.exports = async function(req, res, filePath, conf) {
           return {
             file,
             type: typeInfo.type,
-            icon: path.join(imgDir, typeInfo.icon)
+            iconPath: path.join(imgDir, typeInfo.icon),
+            icon: typeInfo.icon
           };
         })
       };
