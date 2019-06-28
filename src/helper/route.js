@@ -18,7 +18,7 @@ module.exports = async function(req, res, filePath, conf) {
     const stats = await stat(filePath);
     if (stats.isFile()) {
       const contentType = typeTransfer(filePath);
-      res.setHeader("Content-type", contentType.type);
+      res.setHeader("Content-Type", contentType.type);
       // cache
       if (cache(stats, req, res)) {
         res.statusCode = 304;
@@ -32,8 +32,12 @@ module.exports = async function(req, res, filePath, conf) {
         rs = fs.createReadStream(filePath);
       } else {
         res.statusCode = 206;
-        rs = fs.createReadStream(filePath, { start, end });
+        rs = fs.createReadStream(filePath, {
+          start,
+          end
+        });
       }
+      rs.setEncoding('utf8')
       // compress
       if (filePath.match(conf.compress)) {
         rs = compress(rs, req, res);
@@ -42,30 +46,28 @@ module.exports = async function(req, res, filePath, conf) {
     } else if (stats.isDirectory()) {
       const files = await readdir(filePath);
       const dir = path.relative(conf.root, filePath);
-      // TODO
-      const imgDir = path.join(process.cwd(), "src/img");
       // template data
       const data = {
         title: path.basename(filePath),
-        dir: dir ? `${dir}` : "",
+        dir: path.normalize(dir ? `/${dir}` : ""),
         files: files.map(file => {
           const fullPath = path.join(filePath, file);
           const typeInfo = typeTransfer(fullPath);
           return {
             file,
+            icon: typeInfo.icon,
             type: typeInfo.type,
-            iconPath: path.join(imgDir, typeInfo.icon),
-            icon: typeInfo.icon
+            img: typeInfo.img
           };
         })
       };
       res.statusCode = 200;
-      res.setHeader("Content-type", "text/html");
+      res.setHeader("Content-Type", "text/html");
       res.end(template(data));
     }
   } catch (err) {
     res.statusCode = 404;
-    res.setHeader("Content-type", "text/plain");
+    res.setHeader("Content-Type", "text/plain");
     res.end(`${filePath} is not a directory or a file.\n ${err}`);
   }
 };
