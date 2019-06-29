@@ -1,10 +1,10 @@
 {
-  "name": "jasmine-server",
+  "name": "jasmine-fs",
   "version": "0.0.1",
   "description": "",
   "main": "src/app.js",
   "bin": {
-    "jasmine-server": "bin/jasmine-server"
+    "jasmine-fs": "bin/jasmine-fs"
   },
   "dependencies": {
     "chalk": "^2.4.2",
@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./bin/jasmine-server"
+    "start": "node ./bin/jasmine-fs"
   },
   "author": "chaohua@outlook.com",
   "license": "MIT"
