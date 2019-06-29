@@ -15,6 +15,5 @@ module.exports = {
   },
   rules: {
     "no-console": 1
-    // "no-mixed-spaces-and-tabs": "info"
   }
 };
