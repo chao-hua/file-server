@@ -5,22 +5,22 @@
      __/ /\__,_/____/_/ /_/ /_/_/_/ /_/\___/     /____/\___/_/    |___/\___/_/
     /___/
 
-# fileserver
+# jasmine-server
 
 ## 安装
 
 ```
-npm i -g fileserver
+npm i -g jasmine-server
 ```
 
 ## 使用
 
 ```
-fileserver # 当前目录为服务器根目录
+jasmine-server # 当前目录为服务器根目录
 
-fileserver -p 8888 # 设置端口号为 8888
+jasmine-server -p 8888 # 设置端口号为 8888
 
-fileserver -h localhost # 设置 host 为 localhost
+jasmine-server -h localhost # 设置 host 为 localhost
 
-fileserver -r /user # 设置根目录为 /user
+jasmine-server -r /user # 设置根目录为 /user
 ```

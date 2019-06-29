@@ -2,7 +2,7 @@ const yargs = require("yargs");
 const Server = require("./app");
 
 const argv = yargs
-  .usage("anywhere [options]")
+  .usage("jasmine-server [options]")
   .option("p", {
     alias: "port",
     describe: "端口号",
