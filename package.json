@@ -1,7 +1,7 @@
 {
   "name": "jasmine-fs",
   "version": "0.0.2",
-  "description": "",
+  "description": "A file server powered by node.",
   "main": "src/app.js",
   "bin": {
     "jasmine-fs": "bin/jasmine-fs"
