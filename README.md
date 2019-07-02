@@ -19,7 +19,7 @@ A file server powered by node.
 
 ## Install 安装
 
-`npm i -g jasmine-fs`
+`npm install -g jasmine-fs`
 
 ## Quick Start 快速上手
 
