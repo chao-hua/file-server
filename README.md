@@ -30,7 +30,7 @@ jasmine-fs -p 8888 # 设置端口号为 8888
 
 jasmine-fs -h localhost # 设置服务器地址为 localhost
 
-jasmine-fs -r /user # 设置根目录为 /user
+jasmine-fs -r /user # 设置服务器根目录为 /user
 ```
 
 ## License
